@@ -30,9 +30,14 @@ public class FormatterUtil
      */
     public static void configureDefaultHandler (Formatter formatter)
     {
+        // work around for bug - http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8017174
+        LogManager.getLogManager().getLogger("fake_logger");
+
         Logger logger = LogManager.getLogManager().getLogger("");
-        for (Handler handler : logger.getHandlers()) {
-            handler.setFormatter(formatter);
+        if (logger != null) {
+            for (Handler handler : logger.getHandlers()) {
+                handler.setFormatter(formatter);
+            }
         }
     }
 }
